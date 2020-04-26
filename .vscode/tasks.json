@@ -10,6 +10,8 @@
       "args": [
         "-g",
         "${file}",
+        // "/home/leandro/learnC/ch4src/stackcalcu/stack.c",
+        //"/home/leandro/learnC/ch4src/stackcalcu/terminalReader.c",
         "-lm",
         "-o",
         "${fileDirname}/${fileBasenameNoExtension}"
