@@ -1,17 +1,17 @@
 #include <stdio.h>
 
 void sort(int list[], int firstIndex, int lastIndex);
-void swap(int *a, int *b, int *pivote);
+void swap(int *a, int *b, int *pivote, int pivotIndex);
 void swap2(int *a, int *b);
 
 int main()
 {
 
-    int numbers[] = {34, 12, 5, 66, 88, 33, 21, 32, 32, 22, 19, 35};
+    int numbers[] = {34, 48, 5, 66, 88, 91, 15, 32, 32, 22, 1, 72, 26, 12, 2};
 
-    sort(numbers, 0, 11);
+    sort(numbers, 0, 14);
 
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 15; i++)
     {
         printf("%d ", numbers[i]);
     }
@@ -28,40 +28,37 @@ void sort(int list[], int firstIndex, int lastIndex)
         int i = firstIndex;
         int pivotIndex = lastIndex;
 
-        while (i < pivotIndex && pivotIndex > 1)
+        while (i < pivotIndex)
         {
 
             if (list[i] > pivot)
             {
-                swap(&list[i], &list[pivotIndex - 1], &list[pivotIndex]);
+                swap(&list[i], &list[pivotIndex - 1], &list[pivotIndex], pivotIndex);
                 pivotIndex--;
                 continue;
             }
 
             i++;
         }
-
-        if (pivotIndex == 1 && list[0] > list[pivotIndex])
-        {
-            swap2(&list[0], &list[pivotIndex]);
-        }
-
         sort(list, firstIndex, pivotIndex - 1);
         sort(list, pivotIndex + 1, lastIndex);
     }
 }
 
-void swap(int *a, int *b, int *pivote)
+void swap(int *a, int *b, int *pivote, int pivotIndex)
 {
-    int t = *a;
-    *a = *b;
-    *b = *pivote;
-    *pivote = t;
-}
+    if (pivotIndex == 1)
+    {
+        int t = *a;
+        *a = *pivote;
+        *pivote = t;
+    }
+    else
+    {
 
-void swap2(int *a, int *b)
-{
-    int t = *a;
-    *a = *b;
-    *b = t;
+        int t = *a;
+        *a = *b;
+        *b = *pivote;
+        *pivote = t;
+    }
 }
