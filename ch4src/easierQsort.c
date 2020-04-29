@@ -23,7 +23,7 @@ void sort(int list[], int firstIndex, int lastIndex)
 {
     if (firstIndex < lastIndex)
     {
-        int pivot = list[lastIndex];
+        char *pivot = list[lastIndex];
 
         int i = firstIndex;
         int pivotIndex = lastIndex;
