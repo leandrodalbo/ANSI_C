@@ -5,18 +5,27 @@
 int readLines(int maxLines, char *linesStorage[]);
 void printLines(int totalLines, char *linesStorage[]);
 void initLinesStorage(int maxLines, char *linesStorage[]);
-void sort(char *list[], int firstIndex, int lastIndex);
+void sort(char *list[], int firstIndex, int lastIndex, int (*comp)(char *s1, char *s2));
 void swap(char *list[], int a, int b, int pivote);
 
-int main()
+int defaultCmp(char *s1, char *s2);
+int reverseCmp(char *s1, char *s2);
+
+int main(int argc, char *argv[])
 {
     int const MAXLINES = 10;
     char *lines[MAXLINES];
     int totalLines = 0;
+    int isReverse = 0;
+
+    if (argc > 1 && (strcmp(argv[1], "-r") == 0))
+    {
+        isReverse = 1;
+    }
 
     if ((totalLines = readLines(MAXLINES, lines)) >= 0)
     {
-        sort(lines, 0, totalLines);
+        sort(lines, 0, totalLines, (isReverse) ? reverseCmp : defaultCmp);
         printLines(totalLines, lines);
         return 0;
     }
@@ -27,7 +36,17 @@ int main()
     }
 }
 
-void sort(char *list[], int firstIndex, int lastIndex)
+int defaultCmp(char *s1, char *s2)
+{
+    return (strcmp(s1, s2) >= 0);
+}
+
+int reverseCmp(char *s1, char *s2)
+{
+    return (strcmp(s1, s2) < 0);
+}
+
+void sort(char *list[], int firstIndex, int lastIndex, int (*comp)(char *s1, char *s2))
 {
     if (firstIndex < lastIndex)
     {
@@ -37,7 +56,7 @@ void sort(char *list[], int firstIndex, int lastIndex)
         while (i < pivotIndex)
         {
 
-            if (strcmp(list[i], list[pivotIndex]) > 0)
+            if ((*comp)(list[i], list[pivotIndex]))
             {
                 swap(list, i, (pivotIndex - 1), pivotIndex);
                 pivotIndex--;
@@ -46,8 +65,8 @@ void sort(char *list[], int firstIndex, int lastIndex)
 
             i++;
         }
-        sort(list, firstIndex, pivotIndex - 1);
-        sort(list, pivotIndex + 1, lastIndex);
+        sort(list, firstIndex, pivotIndex - 1, comp);
+        sort(list, pivotIndex + 1, lastIndex, comp);
     }
 }
 
