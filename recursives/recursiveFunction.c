@@ -100,7 +100,7 @@ int sumSquaresRecursive(int m, int n)
   }
   else
   {
-    return (i * i) + sumSquaresIterative((i + 1), n);
+    return (i * i) + sumSquaresRecursive((i + 1), n);
   }
 }
 
