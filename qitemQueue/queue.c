@@ -31,12 +31,12 @@ QItem *addQItem(QItem *queue, int value, int priority)
   newItem->value = value;
   newItem->priority = priority;
 
-  if (queue->value == -1 && queue->priority == -1 && queue->link == NULL)
+  if (isEmpty(queue))
   {
     queue->value = value;
     queue->priority = priority;
   }
-  else if (queue->value != -1 && queue->priority != -1 && priority < queue->priority)
+  else if (!isEmpty(queue) && priority <= queue->priority)
   {
     newItem->link = queue;
     queue = newItem;
@@ -44,22 +44,69 @@ QItem *addQItem(QItem *queue, int value, int priority)
   else
   {
     QItem *aux = queue;
+    QItem *prev = queue;
     while (aux->link != NULL && priority > aux->priority)
     {
+      prev = aux;
       aux = aux->link;
     }
 
     if (aux->link == NULL)
     {
-      newItem->link = NULL;
-      aux->link = newItem;
+      if (priority > aux->priority)
+      {
+        newItem->link = NULL;
+        aux->link = newItem;
+      }
+      else
+      {
+        prev->link = newItem;
+        newItem->link = aux;
+      }
     }
     else
     {
-      newItem->link = aux->link;
-      aux->link = newItem;
+      prev->link = newItem;
+      newItem->link = aux;
     }
   }
 
   return queue;
+}
+
+QItem *processQItem(QItem *queue)
+{
+
+  if (queue->link == NULL)
+  {
+    free(queue);
+    queue = NULL;
+  }
+  else
+  {
+
+    QItem *item = queue;
+    QItem *prev = queue;
+
+    while (item->link != NULL)
+    {
+      prev = item;
+      item = item->link;
+    }
+
+    prev->link = NULL;
+    free(item);
+  }
+
+  return queue;
+}
+
+int isEmpty(QItem *queue)
+{
+  return (queue == NULL || queue->value == -1);
+}
+
+int isAvalidPriority(int priority)
+{
+  return (priority >= PRIORITY_LOW && priority <= PRIORITY_HIGH);
 }
