@@ -19,6 +19,7 @@ Node *findNodeWithSeqSearch(Node *list, Code code);
 void deleteNode(Node *list, Code code);
 Node *insertFirst(Node *list, Code code);
 Node *reverse(Node *list);
+
 int main()
 {
 

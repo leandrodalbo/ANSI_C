@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "terminalreader.h": "c"
+        "terminalreader.h": "c",
+        "type_traits": "c"
     }
 }
